@@ -25,15 +25,13 @@ Document(page_content="分块后的文本", metadata={})
 
 ```
 
-⚙️ 常见的 Splitter 类型
-
-Splitter 名称	功能说明	推荐场景
-RecursiveCharacterTextSplitter	递归按字符、标点、段落拆分（最常用）	通用文本拆分（中英文都可）
-CharacterTextSplitter	简单按字符或换行符拆分	日志 / 文本行分隔
-MarkdownHeaderTextSplitter	按 Markdown 标题层级拆分	Markdown、技术文档
-SpacyTextSplitter	基于 NLP 句法结构拆分	中文 / 英文自然语言句子
-TokenTextSplitter	按 token 数量拆分（兼容 tokenizer）	精确控制 token 长度（LLM 输入）
-
+| Splitter 名称 | 功能说明 | 推荐场景 |
+|------------------------------|-------------------------------------------|------------------------------|
+| RecursiveCharacterTextSplitter | 递归按字符、标点、段落拆分（最常用） | 通用文本拆分（中英文都可） |
+| CharacterTextSplitter | 简单按字符或换行符拆分 | 日志 / 文本行分隔 |
+| MarkdownHeaderTextSplitter | 按 Markdown 标题层级拆分 | Markdown、技术文档 |
+| SpacyTextSplitter | 基于 NLP 句法结构拆分 | 中文 / 英文自然语言句子 |
+| TokenTextSplitter | 按 token 数量拆分（兼容 tokenizer） | 精确控制 token 长度（LLM 输入） |
 
 
 
@@ -188,13 +186,13 @@ print(f"共 {len(chunks)} 块")
 
 
 
-✅ 实战建议
+实战建议
 
-场景	推荐 Splitter
-通用文本（中文 / 英文）	RecursiveCharacterTextSplitter
-结构化文本（日志 / 表格）	CharacterTextSplitter
-Markdown 技术文档	MarkdownHeaderTextSplitter
-中文自然语言句子	SpacyTextSplitter
-精准控制 Token 长度	TokenTextSplitter
-
+| 场景 | 推荐 Splitter |
+|------|-----------------------------|
+| 通用文本（中文 / 英文） | RecursiveCharacterTextSplitter |
+| 结构化文本（日志 / 表格） | CharacterTextSplitter |
+| Markdown 技术文档 | MarkdownHeaderTextSplitter |
+| 中文自然语言句子 | SpacyTextSplitter |
+| 精准控制 Token 长度 | TokenTextSplitter |
 
