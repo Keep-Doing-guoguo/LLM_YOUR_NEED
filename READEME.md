@@ -71,7 +71,6 @@ LLM_YOUR_NEED/
 ### 核心贡献者
 
 - [张文文-项目负责人和开发人](https://github.com/Keep-Doing-guoguo) 
-- [黄家嘉-实际开发人](https://github.com/869924024) 
 
 项目学习了优秀开源项目，感谢huggingface、流萤及一些国内外开源项目。
 部分lora代码和讲解参考仓库：

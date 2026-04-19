@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="780" height="420" viewBox="0 0 780 420" role="img" aria-labelledby="title desc">
+  <title id="title">YOLO normalized bbox coordinates</title>
+  <desc id="desc">A 640 by 480 image with a YOLO box represented by normalized center coordinates and normalized width and height.</desc>
+  <rect width="780" height="420" fill="#f7f8fa"/>
+  <style>
+    text { font-family: Arial, sans-serif; fill: #1f2933; }
+    .image { fill: #eef3f8; stroke: #b8c4d4; stroke-width: 2; }
+    .box { fill: rgba(47, 111, 237, 0.12); stroke: #2f6fed; stroke-width: 3; }
+    .guide { stroke: #8795a8; stroke-width: 1.5; stroke-dasharray: 5 5; }
+    .axis { stroke: #52616f; stroke-width: 2; }
+    .label { font-size: 20px; font-weight: 700; }
+    .small { font-size: 15px; }
+    .coord { font-size: 16px; font-weight: 700; fill: #2f6fed; }
+  </style>
+
+  <text class="label" x="40" y="38">YOLO normalized coordinate example</text>
+  <text class="small" x="40" y="64">Example label: 0 0.5 0.6 0.3 0.4, image size: 640 x 480</text>
+
+  <g transform="translate(70 95)">
+    <rect class="image" x="0" y="0" width="512" height="264"/>
+    <line class="axis" x1="0" y1="0" x2="512" y2="0"/>
+    <line class="axis" x1="0" y1="0" x2="0" y2="264"/>
+    <text class="small" x="-7" y="-10">(0, 0)</text>
+    <text class="small" x="450" y="-10">x / image_width</text>
+    <text class="small" x="-42" y="258">y / image_height</text>
+
+    <rect class="box" x="179.2" y="105.6" width="153.6" height="105.6"/>
+    <line class="guide" x1="256" y1="0" x2="256" y2="264"/>
+    <line class="guide" x1="0" y1="158.4" x2="512" y2="158.4"/>
+    <circle cx="256" cy="158.4" r="6" fill="#d64545"/>
+    <text class="coord" x="266" y="153">center = (0.5, 0.6)</text>
+    <text class="small" x="195" y="232">w = 0.3, h = 0.4</text>
+  </g>
+
+  <g transform="translate(610 120)">
+    <text class="label" x="0" y="0">Pixel result</text>
+    <text class="small" x="0" y="36">center_x = 320</text>
+    <text class="small" x="0" y="62">center_y = 288</text>
+    <text class="small" x="0" y="88">width = 192</text>
+    <text class="small" x="0" y="114">height = 192</text>
+    <text class="small" x="0" y="154">xmin = 224</text>
+    <text class="small" x="0" y="180">ymin = 192</text>
+    <text class="small" x="0" y="206">xmax = 416</text>
+    <text class="small" x="0" y="232">ymax = 384</text>
+  </g>
+</svg>
