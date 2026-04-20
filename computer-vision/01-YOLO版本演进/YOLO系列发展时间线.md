@@ -171,7 +171,88 @@
 
 ---
 
-## 十、YOLO 各版本发布顺序与主要改进汇总表
+## 十、YOLOv9（2024 论文版本）
+
+### 发布时间：
+- 2024 年，论文：[YOLOv9: Learning What You Want to Learn Using Programmable Gradient Information](https://arxiv.org/abs/2402.13616)
+
+### 改进点：
+
+|内容|说明|
+|------|------|
+|PGI 可编程梯度信息|缓解深层网络训练中的信息丢失|
+|GELAN 结构|结合 ELAN 与梯度路径设计|
+|保持实时检测|继续服务 YOLO-style 单阶段检测|
+|兼顾轻量与精度|提供不同规模模型|
+
+---
+
+## 十一、YOLOv10（2024 THU-MIG）
+
+### 发布时间：
+- 2024 年，论文：[YOLOv10: Real-Time End-to-End Object Detection](https://arxiv.org/abs/2405.14458)
+
+### 改进点：
+
+|内容|说明|
+|------|------|
+|NMS-free|减少传统 YOLO 对 NMS 后处理的依赖|
+|一致双分配|one-to-many 训练监督 + one-to-one 推理输出|
+|端到端实时检测|兼顾 YOLO 速度和端到端输出|
+|效率驱动设计|优化结构中的冗余计算|
+
+---
+
+## 十二、YOLO11（2024 Ultralytics）
+
+### 发布时间：
+- 2024 年由 Ultralytics 发布；
+- 官方命名为 YOLO11，不是 YOLOv11。
+
+### 改进点：
+
+|内容|说明|
+|------|------|
+|延续 YOLOv8 工程体系|anchor-free、TAL、DFL、解耦头|
+|模型结构继续优化|提升速度与精度平衡|
+|多任务模型族|detect、segment、pose、classify、OBB|
+|部署工具链成熟|继承 Ultralytics ONNX、TensorRT 等导出能力|
+
+---
+
+## 十三、YOLOv12（2025 Attention-Centric 论文）
+
+### 发布时间：
+- 2025 年，论文：[YOLOv12: Attention-Centric Real-Time Object Detectors](https://arxiv.org/abs/2502.12524)
+
+### 改进点：
+
+|内容|说明|
+|------|------|
+|Attention-Centric|围绕高效 attention 重新设计实时检测器|
+|增强全局上下文|补足卷积局部建模不足|
+|保持 YOLO 实时范式|不是 DETR 式检测器|
+|anchor-free 检测|延续现代 YOLO 预测方式|
+
+---
+
+## 十四、YOLOv13（2025 Hypergraph 论文）
+
+### 发布时间：
+- 2025 年，论文：[YOLOv13: Real-Time Object Detection with Hypergraph-Enhanced Adaptive Visual Perception](https://arxiv.org/abs/2506.17733)
+
+### 改进点：
+
+|内容|说明|
+|------|------|
+|超图增强视觉感知|建模多个区域之间的高阶关系|
+|自适应视觉感知|根据输入特征动态增强上下文表达|
+|复杂场景友好|面向遮挡、密集目标和复杂背景|
+|保持实时检测目标|仍服务 YOLO-style 检测框架|
+
+---
+
+## 十五、YOLO 各版本发布顺序与主要改进汇总表
 
 |模型|发布年份|是否有论文|主要改进点|
 |------|------------|----------------|--------------------|
@@ -183,21 +264,25 @@
 |YOLOv6|2022|是（ArXiv）|RepVGG 主干、SimOTA、DFL Loss|
 |YOLOv7|2022|否（无正式论文）|E-ELAN、模型集成、Extend Assigner|
 |YOLOv8|2023|否（无正式论文）|TAL 标签分配、DFL Loss、多任务支持|
+|YOLOv9|2024|是（ArXiv）|PGI、GELAN、梯度路径优化|
+|YOLOv10|2024|是（ArXiv）|NMS-free、一致双分配、端到端实时检测|
+|YOLO11|2024|否（官方工程版本）|Ultralytics 多任务模型族升级|
+|YOLOv12|2025|是（ArXiv）|Attention-centric 实时检测|
+|YOLOv13|2025|是（ArXiv）|超图增强自适应视觉感知|
 
 ---
 
-## 十一、YOLO 系列演进图示（文字版）
+## 十六、YOLO 系列演进图示（文字版）
 
 ```
-YOLOv1 → YOLOv2 → YOLOv3 → YOLOv4 → YOLOv5 → YOLOv6 → YOLOv7 → YOLOv8
-     ↓          ↓           ↓            ↓             ↓              ↓             ↓               ↓
-单阶段      Anchor Box    多尺度预测   CIoU Loss   SimOTA 分配   RepVGG 主干   模型集成       TAL + DFL
-实时性强    多尺度训练    PANet Neck   DIoU-NMS   auto-anchor   EfficientRep  扩展高效结构   多任务支持
+YOLOv1 → YOLOv2 → YOLOv3 → YOLOv4 → YOLOv5 → YOLOv6 → YOLOv7 → YOLOv8 → YOLOv9 → YOLOv10 → YOLO11 → YOLOv12 → YOLOv13
+     ↓          ↓           ↓            ↓             ↓              ↓             ↓               ↓          ↓           ↓          ↓          ↓          ↓
+单阶段      Anchor Box    多尺度预测   CIoU Loss   SimOTA 分配   RepVGG 主干   模型集成       TAL+DFL    PGI/GELAN   NMS-free  工程升级   Attention  Hypergraph
 ```
 
 ---
 
-## 十二、结语
+## 十七、结语
 
 YOLO 系列的发展经历了以下几个重要阶段：
 
@@ -209,6 +294,11 @@ YOLO 系列的发展经历了以下几个重要阶段：
 |YOLOv6|RepVGG 主干 + DFL Loss|
 |YOLOv7|扩展结构 + 模型集成|
 |YOLOv8|TAL 标签分配 + DFL + 多任务支持|
+|YOLOv9|PGI + GELAN，强化梯度路径与特征学习|
+|YOLOv10|一致双分配 + NMS-free 实时端到端检测|
+|YOLO11|Ultralytics 工程化多任务模型族升级|
+|YOLOv12|高效 attention 引入实时 YOLO 检测|
+|YOLOv13|超图高阶关系建模增强视觉感知|
 
 掌握这些版本的核心改进点，有助于你理解现代目标检测框架的设计理念，并为进一步调优打下基础。
 
