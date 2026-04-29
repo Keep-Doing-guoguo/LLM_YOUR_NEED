@@ -29,6 +29,8 @@
 
 ### 3. **模型结构**
 
+![CLIP 对比学习](./assets/clip-contrastive.svg)
+
 CLIP 包含两个主要编码器：
 
 | 模块 | 模型类型 | 输入 | 输出 |

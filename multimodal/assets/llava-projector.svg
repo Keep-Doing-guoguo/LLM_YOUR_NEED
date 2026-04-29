@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1120" height="390" viewBox="0 0 1120 390">
+  <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#334155"/></marker>
+  <style>.title{font:700 24px Arial,sans-serif;fill:#0f172a}.h{font:700 16px Arial,sans-serif;fill:#0f172a}.t{font:400 13px Arial,sans-serif;fill:#334155}.box{rx:8;stroke:#334155;stroke-width:1.4}.v{fill:#dbeafe}.p{fill:#fef3c7}.l{fill:#dcfce7}.line{stroke:#334155;stroke-width:1.7;marker-end:url(#arrow)}</style></defs>
+  <rect width="1120" height="390" fill="#fff"/><text x="34" y="42" class="title">LLaVA-style Visual Instruction Model</text>
+  <g transform="translate(60 130)"><rect class="box v" width="175" height="88"/><text x="38" y="35" class="h">Image</text><text x="32" y="60" class="t">pixels</text></g>
+  <line x1="238" y1="174" x2="300" y2="174" class="line"/>
+  <g transform="translate(315 110)"><rect class="box v" width="200" height="128"/><text x="36" y="36" class="h">CLIP ViT</text><text x="30" y="68" class="t">visual feature tokens</text><text x="30" y="94" class="t">often frozen</text></g>
+  <line x1="518" y1="174" x2="580" y2="174" class="line"/>
+  <g transform="translate(595 110)"><rect class="box p" width="200" height="128"/><text x="37" y="36" class="h">MLP Projector</text><text x="28" y="68" class="t">map visual dim</text><text x="28" y="94" class="t">to LLM hidden size</text></g>
+  <line x1="798" y1="174" x2="860" y2="174" class="line"/>
+  <g transform="translate(875 110)"><rect class="box l" width="190" height="128"/><text x="38" y="36" class="h">LLM</text><text x="28" y="68" class="t">visual tokens + text</text><text x="28" y="94" class="t">instruction response</text></g>
+  <g transform="translate(315 285)"><rect class="box p" width="485" height="52"/><text x="22" y="32" class="t">Key idea: a lightweight projector turns image features into language-model-readable tokens.</text></g>
+</svg>

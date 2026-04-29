@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="480" viewBox="0 0 1180 480">
+  <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#334155"/></marker>
+  <style>.title{font:700 24px Arial,sans-serif;fill:#0f172a}.h{font:700 16px Arial,sans-serif;fill:#0f172a}.t{font:400 13px Arial,sans-serif;fill:#334155}.box{rx:8;stroke:#334155;stroke-width:1.4}.img{fill:#dbeafe}.tok{fill:#fef3c7}.llm{fill:#dcfce7}.warn{fill:#fee2e2}.line{stroke:#334155;stroke-width:1.7;marker-end:url(#arrow)}</style></defs>
+  <rect width="1180" height="480" fill="#fff"/><text x="34" y="42" class="title">Visual Tokens in Multimodal Inference</text>
+  <g transform="translate(60 110)"><rect class="box img" width="180" height="95"/><text x="32" y="38" class="h">High-res Image</text><text x="28" y="66" class="t">more patches</text></g>
+  <line x1="242" y1="157" x2="315" y2="157" class="line"/>
+  <g transform="translate(330 105)"><rect class="box tok" width="210" height="105"/><text x="36" y="37" class="h">Visual Tokens</text><text x="30" y="67" class="t">occupy context length</text></g>
+  <line x1="542" y1="157" x2="615" y2="157" class="line"/>
+  <g transform="translate(630 105)"><rect class="box llm" width="210" height="105"/><text x="52" y="37" class="h">Prefill</text><text x="28" y="67" class="t">process all visual + text tokens</text></g>
+  <line x1="842" y1="157" x2="915" y2="157" class="line"/>
+  <g transform="translate(930 105)"><rect class="box llm" width="190" height="105"/><text x="54" y="37" class="h">Decode</text><text x="28" y="67" class="t">generate text tokens</text></g>
+  <g transform="translate(205 285)"><rect class="box warn" width="770" height="95"/><text x="30" y="38" class="h">Cost rule</text><text x="30" y="66" class="t">total context = text tokens + visual tokens + output tokens. More images, higher resolution, and video frames increase KV cache and prefill latency.</text></g>
+</svg>

@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="520" viewBox="0 0 1100 520">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#334155"/></marker>
+    <style>
+      .title{font:700 24px Arial,sans-serif;fill:#0f172a}.label{font:700 16px Arial,sans-serif;fill:#0f172a}.txt{font:400 13px Arial,sans-serif;fill:#334155}
+      .box{rx:8;stroke:#334155;stroke-width:1.4}.img{fill:#dbeafe}.text{fill:#dcfce7}.emb{fill:#fef3c7}.mat{fill:#f8fafc}.pos{fill:#22c55e}.neg{fill:#fecaca}
+      .line{stroke:#334155;stroke-width:1.6;marker-end:url(#arrow)}
+    </style>
+  </defs>
+  <rect width="1100" height="520" fill="#fff"/>
+  <text x="34" y="42" class="title">CLIP Contrastive Learning</text>
+  <g transform="translate(52 95)">
+    <rect class="box img" width="170" height="62"/><text x="24" y="38" class="label">Image batch</text>
+    <line x1="170" y1="31" x2="245" y2="31" class="line"/>
+    <rect x="260" class="box img" width="180" height="62"/><text x="292" y="38" class="label">Image Encoder</text>
+    <line x1="440" y1="31" x2="512" y2="31" class="line"/>
+    <rect x="530" class="box emb" width="160" height="62"/><text x="565" y="30" class="label">Image</text><text x="555" y="48" class="txt">embeddings</text>
+  </g>
+  <g transform="translate(52 225)">
+    <rect class="box text" width="170" height="62"/><text x="28" y="38" class="label">Text batch</text>
+    <line x1="170" y1="31" x2="245" y2="31" class="line"/>
+    <rect x="260" class="box text" width="180" height="62"/><text x="298" y="38" class="label">Text Encoder</text>
+    <line x1="440" y1="31" x2="512" y2="31" class="line"/>
+    <rect x="530" class="box emb" width="160" height="62"/><text x="570" y="30" class="label">Text</text><text x="555" y="48" class="txt">embeddings</text>
+  </g>
+  <line x1="750" y1="126" x2="812" y2="208" class="line"/>
+  <line x1="750" y1="256" x2="812" y2="247" class="line"/>
+  <g transform="translate(815 120)">
+    <rect class="box mat" width="230" height="230"/>
+    <text x="36" y="30" class="label">Similarity Matrix</text>
+    <g transform="translate(42 58)">
+      <rect width="32" height="32" class="pos"/><rect x="34" width="32" height="32" class="neg"/><rect x="68" width="32" height="32" class="neg"/><rect x="102" width="32" height="32" class="neg"/>
+      <rect y="34" width="32" height="32" class="neg"/><rect x="34" y="34" width="32" height="32" class="pos"/><rect x="68" y="34" width="32" height="32" class="neg"/><rect x="102" y="34" width="32" height="32" class="neg"/>
+      <rect y="68" width="32" height="32" class="neg"/><rect x="34" y="68" width="32" height="32" class="neg"/><rect x="68" y="68" width="32" height="32" class="pos"/><rect x="102" y="68" width="32" height="32" class="neg"/>
+      <rect y="102" width="32" height="32" class="neg"/><rect x="34" y="102" width="32" height="32" class="neg"/><rect x="68" y="102" width="32" height="32" class="neg"/><rect x="102" y="102" width="32" height="32" class="pos"/>
+    </g>
+    <text x="42" y="205" class="txt">diagonal = matched pairs</text>
+  </g>
+  <g transform="translate(235 385)">
+    <rect class="box mat" width="610" height="70"/>
+    <text x="24" y="30" class="label">Training objective</text>
+    <text x="24" y="52" class="txt">Pull matched image-text pairs together and push unmatched pairs apart using contrastive loss.</text>
+  </g>
+</svg>

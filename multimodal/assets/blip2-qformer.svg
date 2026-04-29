@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="430" viewBox="0 0 1180 430">
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#334155"/></marker>
+    <style>.title{font:700 24px Arial,sans-serif;fill:#0f172a}.h{font:700 16px Arial,sans-serif;fill:#0f172a}.t{font:400 13px Arial,sans-serif;fill:#334155}.box{rx:8;stroke:#334155;stroke-width:1.4}.frozen{fill:#e0f2fe}.train{fill:#fef3c7}.llm{fill:#dcfce7}.line{stroke:#334155;stroke-width:1.7;marker-end:url(#arrow)}</style>
+  </defs>
+  <rect width="1180" height="430" fill="#fff"/>
+  <text x="34" y="42" class="title">BLIP-2 Architecture: Frozen Vision Encoder + Q-Former + Frozen LLM</text>
+  <g transform="translate(55 135)">
+    <rect class="box frozen" width="180" height="95"/><text x="36" y="34" class="h">Image</text><text x="28" y="60" class="t">input pixels</text>
+  </g>
+  <line x1="238" y1="182" x2="300" y2="182" class="line"/>
+  <g transform="translate(315 115)">
+    <rect class="box frozen" width="205" height="135"/><text x="42" y="35" class="h">Frozen ViT</text><text x="28" y="64" class="t">patch embeddings</text><text x="28" y="88" class="t">visual features</text><text x="28" y="112" class="t">not updated</text>
+  </g>
+  <line x1="522" y1="182" x2="590" y2="182" class="line"/>
+  <g transform="translate(605 95)">
+    <rect class="box train" width="225" height="175"/><text x="58" y="35" class="h">Q-Former</text><text x="30" y="67" class="t">learnable query tokens</text><text x="30" y="94" class="t">cross-attend to image</text><text x="30" y="121" class="t">compress visual features</text><text x="30" y="148" class="t">trainable bridge</text>
+  </g>
+  <line x1="832" y1="182" x2="900" y2="182" class="line"/>
+  <g transform="translate(915 115)">
+    <rect class="box llm" width="205" height="135"/><text x="38" y="35" class="h">Frozen LLM</text><text x="28" y="64" class="t">OPT / T5 / BLOOM</text><text x="28" y="88" class="t">visual prefix input</text><text x="28" y="112" class="t">text generation</text>
+  </g>
+  <g transform="translate(400 320)">
+    <rect class="box train" width="390" height="58"/><text x="22" y="35" class="t">Only the bridge is trained in the core BLIP-2 setup.</text>
+  </g>
+</svg>

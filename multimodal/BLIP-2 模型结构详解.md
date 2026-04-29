@@ -209,6 +209,8 @@ qformer:
 
 BLIP-2 的模型结构可以概括为：
 
+![BLIP-2 Q-Former](./assets/blip2-qformer.svg)
+
 ```
 ViT Encoder（冻结） → Q-Former（可训练） → 冻结语言模型（如 FlanT5/OPT） → 文本生成
 ```

@@ -21,6 +21,8 @@ Qwen-VL
 
 其中早期 Qwen-VL 重点解决“如何让 Qwen 语言模型看懂图像”；Qwen2-VL 之后进一步强调动态分辨率、视频理解、视觉 Agent 和多语言能力；Qwen2.5-VL 继续强化视频、文档、定位和视觉推理能力。
 
+![Qwen-VL 结构](./assets/qwen-vl-architecture.svg)
+
 ## 一、Qwen-VL 要解决什么问题
 
 纯文本大语言模型只能处理 token 序列：
@@ -216,6 +218,8 @@ OCR 能力在多模态模型中很重要，因为很多真实任务不是普通�
 ## 八、Qwen-VL 的三阶段训练
 
 Qwen-VL 论文强调了三阶段训练流程。可以简化理解为：
+
+![多模态训练任务](./assets/multimodal-training-tasks.svg)
 
 ```text
 Stage 1: 图文对齐预训练
@@ -454,6 +458,8 @@ Qwen-VL 系列则更强调端到端的视觉能力覆盖，尤其是 OCR、定�
 
 Qwen-VL 推理可以简化为：
 
+![多模态推理视觉 Token](./assets/visual-token-inference.svg)
+
 ```text
 用户输入 image + prompt
   -> Processor 处理图片和文本
@@ -582,4 +588,3 @@ Qwen-VL 可以输出框，但如果任务是工业级检测，专用检测模型
 - Qwen2-VL 官方介绍：https://qwen2.org/vl/
 - Hugging Face Transformers Qwen2-VL 文档：https://huggingface.co/docs/transformers/model_doc/qwen2_vl
 - Hugging Face Transformers Qwen2.5-VL 文档：https://huggingface.co/docs/transformers/model_doc/qwen2_5_vl
-

@@ -43,6 +43,8 @@ BLIP-2 的提出是为了降低大规模多模态模型的训练成本，同时�
 Frozen Image Encoder → Q-Former → Frozen Language Model → Output
 ```
 
+![BLIP-2 Q-Former](./assets/blip2-qformer.svg)
+
 其中：
 - ✅ Image Encoder：ViT-B/16 或 ViT-G/14；
 - ✅ Q-Former（Querying Transformer）：可学习的中间模块；
@@ -499,4 +501,3 @@ BLIP-2 是目前最先进的 **参数高效视觉-语言预训练模型之一**�
 
 
 📌 **欢迎点赞 + 收藏 + 关注我，我会持续更新更多关于多模态、BLIP、YOLO、Transformer 等深度学习内容！**
-
