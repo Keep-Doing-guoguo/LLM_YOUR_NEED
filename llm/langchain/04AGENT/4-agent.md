@@ -92,9 +92,154 @@ Agent 可能先产出：
 
 
 
-版本更新之后，这些已经被替换了。
+版本更新之后，这些旧的 `AgentType` 写法已经逐步被新的 Agent API 替换。
 
-随着 LangChain 版本迭代，部分 AgentType 已被弃用或替换。建议优先使用最新推荐的 AgentType，如 `CONVERSATIONAL_REACT_DESCRIPTION` 和 `PLAN_AND_EXECUTE_AGENT`。
+随着 LangChain 版本迭代，部分 `initialize_agent + AgentType` 写法已经不再是首选。新代码建议优先使用 `create_agent`；如果任务进一步复杂到需要稳定状态、循环、人工审批、持久化恢复，再使用 LangGraph。
 
 
-agent的一个案例代码
+## 4. Agent 的一个完整案例代码
+
+下面实现一个工具型 Agent，包含三个工具：
+
+| 工具 | 作用 |
+|------|------|
+| `calculator` | 安全计算数学表达式 |
+| `get_weather` | 查询模拟天气 |
+| `query_orders` | 查询本地 SQLite 订单表，只允许 `SELECT` |
+
+对应的可运行代码已放在同目录：
+
+```bash
+llm/langchain/04AGENT/agent_demo.py
+```
+
+运行方式：
+
+```bash
+cd llm/langchain/04AGENT
+export DASHSCOPE_API_KEY="你的 DashScope API Key"
+python agent_demo.py
+```
+
+如果要切换模型：
+
+```bash
+export AGENT_MODEL="qwen-plus"
+export DASHSCOPE_BASE_URL="https://dashscope.aliyuncs.com/compatible-mode/v1"
+python agent_demo.py
+```
+
+核心代码如下：
+
+```python
+from langchain.agents import create_agent
+from langchain.tools import tool
+from langchain_openai import ChatOpenAI
+
+
+@tool
+def calculator(expression: str) -> str:
+    """计算数学表达式。输入必须是纯数学表达式，例如 3 * (5 + 7)。"""
+    ...
+
+
+@tool
+def get_weather(city: str) -> str:
+    """查询城市天气。输入城市名称，返回天气摘要。"""
+    ...
+
+
+@tool
+def query_orders(sql: str) -> str:
+    """查询订单 SQLite 表。只允许 SELECT 语句，例如 SELECT * FROM orders LIMIT 3。"""
+    ...
+
+
+llm = ChatOpenAI(
+    model="qwen-plus",
+    temperature=0,
+    api_key="你的 DashScope API Key",
+    base_url="https://dashscope.aliyuncs.com/compatible-mode/v1",
+)
+
+agent = create_agent(
+    model=llm,
+    tools=[calculator, get_weather, query_orders],
+    system_prompt=(
+        "你是一个工具型助手。需要计算、查天气或查订单时，优先调用合适的工具；"
+        "回答要简洁，并说明你使用了哪个工具。"
+    ),
+)
+
+result = agent.invoke({
+    "messages": [
+        {"role": "user", "content": "3 * (5 + 7) 等于多少？"}
+    ]
+})
+
+print(result["messages"][-1].content)
+```
+
+完整实现见：
+
+```python
+agent_demo.py
+```
+
+## 5. 这个案例说明了什么
+
+Agent 的关键不是“调用一次模型”，而是让模型根据用户问题选择工具：
+
+```text
+用户问题
+  -> 模型判断是否需要工具
+  -> 选择 calculator / get_weather / query_orders
+  -> 执行工具
+  -> 读取 Observation
+  -> 组织最终回答
+```
+
+这个案例里：
+
+- 问数学题时，Agent 应该调用 `calculator`
+- 问天气时，Agent 应该调用 `get_weather`
+- 问订单时，Agent 应该调用 `query_orders`
+
+## 6. 为什么不用旧的 AgentType 写法
+
+旧版本常见写法是：
+
+```python
+initialize_agent(
+    tools=tools,
+    llm=llm,
+    agent_type=AgentType.ZERO_SHOT_REACT_DESCRIPTION,
+)
+```
+
+这种写法在很多老教程里还能看到，但新项目更建议使用：
+
+```python
+create_agent(
+    model=llm,
+    tools=tools,
+    system_prompt="..."
+)
+```
+
+原因是：
+
+- 新 API 更贴近当前 LangChain 文档
+- Agent 底层基于 LangGraph，后续更容易扩展状态、记忆、人工介入
+- 工具、结构化输出、middleware、runtime context 等能力更容易组合
+
+## 7. 生产环境注意点
+
+上面的示例是教学代码。真实业务里要额外处理：
+
+- 不要用 `eval` 直接执行用户输入，所以示例里用 AST 做了安全计算
+- SQL 工具必须限制权限，最好只允许白名单查询
+- 工具返回内容不能太长，否则会挤占上下文
+- 工具调用要设置超时、重试和错误返回
+- 涉及真实用户数据时要做权限校验和审计
+- Agent 要设置最大调用轮数，避免循环调用工具

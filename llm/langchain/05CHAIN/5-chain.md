@@ -127,3 +127,74 @@ print(chain.run("LangChain"))
 | **LLMChain** | `Prompt + LLM` 的单步链 |
 | **SequentialChain** | 串行执行多个链 |
 | **Agent** | 运行时动态决定“下一步调用哪个工具”的智能链 |
+
+
+## 七、新版 LangChain 更推荐 LCEL / Runnable
+
+上面的 `LLMChain`、`SequentialChain`、`ConversationChain` 是理解 LangChain 早期设计很有帮助的概念，但在新版 LangChain 教学和新项目中，更推荐使用 LCEL：
+
+```python
+chain = prompt | model | parser
+```
+
+例如：
+
+```python
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_core.output_parsers import StrOutputParser
+
+prompt = ChatPromptTemplate.from_template("请用一句话总结：{text}")
+parser = StrOutputParser()
+
+chain = prompt | llm | parser
+
+result = chain.invoke({
+    "text": "LangChain 是一个用于构建 LLM 应用的框架。"
+})
+
+print(result)
+```
+
+这个写法等价于以前的：
+
+```python
+LLMChain(llm=llm, prompt=prompt)
+```
+
+但新版写法更直观，也更容易组合。
+
+
+## 八、旧 Chain 和新版写法对照
+
+| 旧写法 | 新版建议 |
+|--------|----------|
+| `LLMChain` | `prompt | model | parser` |
+| `SimpleSequentialChain` | 多个 Runnable 串联 |
+| `TransformChain` | `RunnableLambda` |
+| `RetrievalQAChain` | `retriever + prompt + model + parser` |
+| `ConversationChain` | Agent / LangGraph memory / 手动消息历史 |
+| `RouterChain` | Runnable 分支或 LangGraph 条件边 |
+
+
+## 九、什么时候还需要理解 Chain
+
+虽然新项目更推荐 LCEL，但 Chain 仍然值得理解：
+
+1. 很多旧代码和老教程仍然使用 Chain。
+2. AgentExecutor、RetrievalQA 等历史接口背后都有 Chain 思想。
+3. Chain 的本质是“把多个步骤组织成流程”，这个思想在 LCEL 和 LangGraph 中仍然存在。
+
+
+## 十、固定流程、Agent、LangGraph 怎么选
+
+| 任务类型 | 推荐 |
+|----------|------|
+| 摘要、翻译、分类、抽取 | LCEL |
+| 固定 RAG 问答 | LCEL + Retriever |
+| 需要动态选择工具 | Agent |
+| 多步骤、循环、分支、人工审批 | LangGraph |
+
+
+## 十一、一句话总结
+
+Chain 是 LangChain 的流程组织思想；新版实现上，固定流程优先用 LCEL，动态工具调用用 Agent，复杂状态编排用 LangGraph。
