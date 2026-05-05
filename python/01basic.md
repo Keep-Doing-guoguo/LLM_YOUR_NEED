@@ -274,3 +274,248 @@ with ThreadPoolExecutor(max_workers=3) as executor:
 ```
 线程的自动管理复用，所有任务自动关闭。
 
+
+## 20.什么是单例模式
+
+单例模式（Singleton Pattern）是一种设计模式，它保证一个类在整个程序运行期间只创建一个实例，并提供一个全局访问点。
+
+简单理解：
+
+```text
+无论你创建多少次对象，拿到的都是同一个对象。
+```
+
+常见使用场景：
+
+| 场景 | 为什么适合单例 |
+|------|----------------|
+| 配置管理器 | 全局配置只需要一份 |
+| 日志对象 | 日志写入器通常全局复用 |
+| 数据库连接池 | 避免重复创建连接池 |
+| 缓存对象 | 全局缓存统一管理 |
+| 模型加载器 | 大模型或机器学习模型加载成本高 |
+
+
+### 20.1 普通类每次都会创建新对象
+
+```python
+class Config:
+    pass
+
+a = Config()
+b = Config()
+
+print(a is b)  # False
+print(id(a))
+print(id(b))
+```
+
+`a is b` 为 `False`，说明它们是两个不同对象。
+
+
+### 20.2 使用 `__new__` 实现单例
+
+`__new__` 是真正创建对象的方法，`__init__` 是对象创建后做初始化的方法。
+
+所以想控制“只创建一个对象”，应该重写 `__new__`。
+
+```python
+class Singleton:
+    _instance = None
+
+    def __new__(cls, *args, **kwargs):
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+        return cls._instance
+
+
+a = Singleton()
+b = Singleton()
+
+print(a is b)  # True
+print(id(a))
+print(id(b))
+```
+
+输出结果中，`a` 和 `b` 的 `id` 相同，说明它们是同一个对象。
+
+
+### 20.3 `__init__` 会被重复执行的问题
+
+注意：上面的单例虽然只创建一个对象，但每次调用类时，`__init__` 仍然会执行。
+
+```python
+class Config:
+    _instance = None
+
+    def __new__(cls, *args, **kwargs):
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+        return cls._instance
+
+    def __init__(self, name):
+        print("执行 __init__")
+        self.name = name
+
+
+a = Config("第一次")
+b = Config("第二次")
+
+print(a is b)      # True
+print(a.name)      # 第二次
+print(b.name)      # 第二次
+```
+
+虽然 `a` 和 `b` 是同一个对象，但第二次初始化会覆盖第一次的属性。
+
+
+### 20.4 防止 `__init__` 重复初始化
+
+可以增加一个 `_initialized` 标记。
+
+```python
+class Config:
+    _instance = None
+
+    def __new__(cls, *args, **kwargs):
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+        return cls._instance
+
+    def __init__(self, name):
+        if getattr(self, "_initialized", False):
+            return
+
+        self.name = name
+        self._initialized = True
+        print("只初始化一次")
+
+
+a = Config("第一次")
+b = Config("第二次")
+
+print(a is b)  # True
+print(a.name)  # 第一次
+print(b.name)  # 第一次
+```
+
+这样对象只会初始化一次。
+
+
+### 20.5 装饰器实现单例
+
+也可以用装饰器保存类和实例的映射关系。
+
+```python
+def singleton(cls):
+    instances = {}
+
+    def wrapper(*args, **kwargs):
+        if cls not in instances:
+            instances[cls] = cls(*args, **kwargs)
+        return instances[cls]
+
+    return wrapper
+
+
+@singleton
+class Logger:
+    def __init__(self):
+        print("创建 Logger")
+
+
+a = Logger()
+b = Logger()
+
+print(a is b)  # True
+```
+
+这种写法简单，但被装饰后的 `Logger` 本质上变成了 `wrapper` 函数，不再是原始类对象。简单业务可以用，复杂场景更推荐 `__new__` 或元类方式。
+
+
+### 20.6 模块天然就是单例
+
+Python 的模块只会被导入并初始化一次，所以模块本身也常被当作单例使用。
+
+例如：
+
+```python
+# config.py
+class Config:
+    def __init__(self):
+        self.debug = True
+
+config = Config()
+```
+
+其他地方直接导入：
+
+```python
+from config import config
+
+print(config.debug)
+```
+
+只要导入的是同一个模块，拿到的就是同一个 `config` 对象。
+
+这是 Python 中最简单、最自然的单例方式。
+
+
+### 20.7 线程安全单例
+
+如果多个线程同时创建对象，普通单例可能出现并发问题。可以使用锁。
+
+```python
+import threading
+
+
+class SafeSingleton:
+    _instance = None
+    _lock = threading.Lock()
+
+    def __new__(cls, *args, **kwargs):
+        if cls._instance is None:
+            with cls._lock:
+                if cls._instance is None:
+                    cls._instance = super().__new__(cls)
+        return cls._instance
+```
+
+这里使用了双重检查：
+
+```text
+第一次检查：避免每次都加锁
+第二次检查：防止多个线程同时进入创建逻辑
+```
+
+
+### 20.8 单例模式的优点和缺点
+
+| 优点 | 说明 |
+|------|------|
+| 节省资源 | 避免重复创建昂贵对象 |
+| 统一管理 | 全局配置、日志、缓存更集中 |
+| 使用方便 | 任何地方都能拿到同一个实例 |
+
+| 缺点 | 说明 |
+|------|------|
+| 全局状态 | 容易让代码产生隐藏依赖 |
+| 测试困难 | 单例状态可能污染不同测试用例 |
+| 并发风险 | 多线程下要考虑线程安全 |
+| 扩展受限 | 子类化和替换实现不如普通对象灵活 |
+
+
+### 20.9 面试常问点
+
+| 问题 | 回答 |
+|------|------|
+| 单例模式是什么？ | 保证一个类只有一个实例，并提供全局访问点 |
+| Python 中如何实现单例？ | `__new__`、装饰器、模块、元类 |
+| 为什么重写 `__new__`？ | 因为 `__new__` 控制对象创建，`__init__` 只负责初始化 |
+| 单例有什么风险？ | 全局状态、测试污染、线程安全问题 |
+| Python 最简单的单例是什么？ | 模块级对象 |
+
+
+### 20.10 一句话总结
+
+单例模式用于保证某个类只创建一个对象。Python 中最常见的实现方式是重写 `__new__`，最自然的方式是使用模块级对象；如果在多线程环境中使用，要额外考虑线程安全。
